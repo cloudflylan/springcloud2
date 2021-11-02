@@ -1,0 +1,52 @@
+server:
+  port: 2002
+
+spring:
+  application:
+    name: seata-storage-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.88:8848
+    alibaba:
+      seata:
+        tx-service-group: lanye_tx_group
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.88:3306/seata_storage?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+logging:
+  level:
+    io:
+      seata: info
+
+# 以下配置可配置在nacos服务端
+seata:
+  enabled: true
+  application-id: seata-server
+  tx-service-group: lanye_tx_group
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      lanye_tx_group: default
+  config:
+    # 指明类型
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 192.168.1.88:8848
+      group: SEATA_GROUP
+      username: nacos
+      password: nacos
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 192.168.1.88:8848
+      group: SEATA_GROUP
+      username: nacos
+      password: nacos
